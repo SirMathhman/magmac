@@ -55,6 +55,10 @@ int main(int argc, char *argv[]) {
                     trim_space(&p);
                     if (strncmp(p, "{}", 2) == 0) {
                         fprintf(out, "void %s() {}\n", name);
+                    } else if (strncmp(p, "true", 4) == 0) {
+                        fprintf(out, "int %s() { return 1; }\n", name);
+                    } else if (strncmp(p, "false", 5) == 0) {
+                        fprintf(out, "int %s() { return 0; }\n", name);
                     }
                 }
             }
