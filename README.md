@@ -86,6 +86,21 @@ int32_t word(void) {
 }
 ```
 
+Functions may also take a single parameter inside the parentheses. A parameter
+is written as `name : Type`:
+
+```magma
+fn id(x : I32) => I32
+```
+
+produces:
+
+```c
+int32_t id(int32_t x) {
+    return 0;
+}
+```
+
 ## Running Tests
 
 Install test requirements and run `pytest`:
