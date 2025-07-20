@@ -23,6 +23,12 @@ Run the CLI entry point:
 python -m magmac
 ```
 
+To create an output file based on an existing input file:
+
+```bash
+python -m magmac -i path/to/input.mg -o path/to/output.c
+```
+
 ## Running Tests
 
 Install test requirements and run `pytest`:
