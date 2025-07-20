@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magmac"
+version = "0.1.0"
+description = "Magmac project"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+
+[project.scripts]
+magmac = "magmac.__main__:main"
