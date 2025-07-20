@@ -29,3 +29,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
+
+## Continuous Integration
+
+This project uses GitHub Actions to run the test suite on pushes and pull requests.
