@@ -3,6 +3,8 @@
 import argparse
 from pathlib import Path
 
+from .compiler import compile_file
+
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Magmac CLI")
@@ -14,8 +16,10 @@ def main(argv=None):
     print("Hello from Magmac!")
 
     if args.input and args.output:
-        if Path(args.input).exists():
-            Path(args.output).touch()
+        in_path = Path(args.input)
+        out_path = Path(args.output)
+        if in_path.exists():
+            compile_file(in_path, out_path)
             print(f"Created {args.output}")
 
 

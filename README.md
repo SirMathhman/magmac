@@ -29,6 +29,20 @@ To create an output file based on an existing input file:
 python -m magmac -i path/to/input.mg -o path/to/output.c
 ```
 
+Currently the compiler supports a minimal syntax. A function declaration
+`fn name() => {}` is translated into an empty C function:
+
+```magma
+fn empty() => {}
+```
+
+produces the following C code:
+
+```c
+void empty(void) {
+}
+```
+
 ## Running Tests
 
 Install test requirements and run `pytest`:
