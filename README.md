@@ -1,6 +1,9 @@
 # Magmac
 
-This repository starts with basic boilerplate for a Python package.
+Magmac is an experiment in building a self-hosted compiler. The goal is to
+compile a custom language, **Magma**, to C. This repository currently starts
+with basic Python package boilerplate and will evolve into the compiler
+implementation.
 
 ## Setup
 
