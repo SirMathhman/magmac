@@ -63,6 +63,29 @@ int falsy(void) {
 }
 ```
 
+Functions may also specify integer types. In Magma, types are written in
+CamelCase, so integer types are `U8`, `U16`, `U32`, `U64`,
+`I8`, `I16`, `I32`, and `I64`. Using one of these in the function body
+generates a function returning the corresponding C integer type. Each function
+returns `0` by default:
+
+```magma
+fn byte() => U8
+fn word() => I32
+```
+
+produces:
+
+```c
+uint8_t byte(void) {
+    return 0;
+}
+
+int32_t word(void) {
+    return 0;
+}
+```
+
 ## Running Tests
 
 Install test requirements and run `pytest`:
@@ -76,3 +99,7 @@ pytest
 ## Continuous Integration
 
 This project uses GitHub Actions to run the test suite on pushes and pull requests.
+
+## Coding Style
+
+Magmac keeps nested loops and conditionals to at most two levels of indentation so the code stays readable.

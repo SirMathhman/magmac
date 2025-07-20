@@ -34,3 +34,19 @@ def test_compile_boolean_functions(tmp_path):
         "int falsy(void) {\n    return 0;\n}\n"
     )
     assert output_file.read_text() == expected
+
+
+def test_compile_integer_functions(tmp_path):
+    src = "\n".join([
+        "fn byte() => U8",
+        "fn word() => I32",
+    ])
+    input_file = tmp_path / "in.mg"
+    input_file.write_text(src)
+    output_file = tmp_path / "out.c"
+    main(["-i", str(input_file), "-o", str(output_file)])
+    expected = (
+        "uint8_t byte(void) {\n    return 0;\n}\n"
+        "int32_t word(void) {\n    return 0;\n}\n"
+    )
+    assert output_file.read_text() == expected
