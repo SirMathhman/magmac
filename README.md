@@ -13,3 +13,13 @@ class HelloWorld {
     }
 }
 ```
+
+Running the compiler on this file produces the following C code:
+
+```c
+#include <stdio.h>
+int main() {
+    printf("Hello, world!\n");
+    return 0;
+}
+```
