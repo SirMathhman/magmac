@@ -104,6 +104,65 @@ int main(int argc, char *argv[]) {
                     }
                 }
             }
+        } else if (strncmp(p, "let", 3) == 0 && isspace((unsigned char)p[3])) {
+            p += 3;
+            trim_space(&p);
+            char name[256];
+            int i = 0;
+            while (*p && (isalnum((unsigned char)*p) || *p == '_')) {
+                if (i < (int)sizeof(name) - 1) {
+                    name[i++] = *p;
+                }
+                p++;
+            }
+            name[i] = '\0';
+            trim_space(&p);
+            if (*p == ':') {
+                p++;
+                trim_space(&p);
+                char type[16];
+                int j = 0;
+                while (*p && !isspace((unsigned char)*p) && *p != '=' && j < (int)sizeof(type) - 1) {
+                    type[j++] = *p;
+                    p++;
+                }
+                type[j] = '\0';
+                trim_space(&p);
+                if (*p == '=') {
+                    p++;
+                    trim_space(&p);
+                    char value[256];
+                    int k = 0;
+                    while (*p && *p != ';' && k < (int)sizeof(value) - 1) {
+                        value[k++] = *p;
+                        p++;
+                    }
+                    value[k] = '\0';
+                    while (k > 0 && isspace((unsigned char)value[k-1])) {
+                        value[--k] = '\0';
+                    }
+                    trim_space(&p);
+                    if (*p == ';') {
+                        const char *ctype = NULL;
+                        if (strcmp(type, "U8") == 0) ctype = "uint8_t";
+                        else if (strcmp(type, "U16") == 0) ctype = "uint16_t";
+                        else if (strcmp(type, "U32") == 0) ctype = "uint32_t";
+                        else if (strcmp(type, "U64") == 0) ctype = "uint64_t";
+                        else if (strcmp(type, "I8") == 0) ctype = "int8_t";
+                        else if (strcmp(type, "I16") == 0) ctype = "int16_t";
+                        else if (strcmp(type, "I32") == 0) ctype = "int32_t";
+                        else if (strcmp(type, "I64") == 0) ctype = "int64_t";
+                        else if (strcmp(type, "Bool") == 0) ctype = "int";
+                        const char *val = value;
+                        char conv[8];
+                        if (strcmp(value, "true") == 0) { strcpy(conv, "1"); val = conv; }
+                        else if (strcmp(value, "false") == 0) { strcpy(conv, "0"); val = conv; }
+                        if (ctype) {
+                            fprintf(out, "%s %s = %s;\n", ctype, name, val);
+                        }
+                    }
+                }
+            }
         }
     }
 

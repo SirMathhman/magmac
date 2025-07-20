@@ -20,6 +20,18 @@ into an equivalent empty C function:
 void name() {}
 ```
 
+The translator also supports simple variable declarations of the form:
+
+```
+let foo: I32 = 5;
+```
+
+which becomes the corresponding C definition:
+
+```
+int32_t foo = 5;
+```
+
 ## Building
 
 Compile the translator with GCC:
