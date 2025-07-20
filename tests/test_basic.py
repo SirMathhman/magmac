@@ -50,3 +50,13 @@ def test_compile_integer_functions(tmp_path):
         "int32_t word(void) {\n    return 0;\n}\n"
     )
     assert output_file.read_text() == expected
+
+
+def test_compile_single_parameter(tmp_path):
+    src = "fn id(x: I32) => I32"
+    input_file = tmp_path / "in.mg"
+    input_file.write_text(src)
+    output_file = tmp_path / "out.c"
+    main(["-i", str(input_file), "-o", str(output_file)])
+    expected = "int32_t id(int32_t x) {\n    return 0;\n}\n"
+    assert output_file.read_text() == expected
