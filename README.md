@@ -1,10 +1,17 @@
 # magmac
 
 This project contains a small translator written in C. It converts a very
-simple function syntax:
+simple function syntax. Functions can optionally specify an explicit return
+type after the parameter list.
 
 ```
 fn name() => {}
+```
+
+An explicit return type can be provided after the parameter list:
+
+```
+fn test(): I16 => {}
 ```
 
 into an equivalent empty C function:
