@@ -18,3 +18,19 @@ def test_compile_empty_function(tmp_path):
     output_file = tmp_path / "out.c"
     main(["-i", str(input_file), "-o", str(output_file)])
     assert output_file.read_text() == "void empty(void) {\n}\n"
+
+
+def test_compile_boolean_functions(tmp_path):
+    src = "\n".join([
+        "fn truthy() => true",
+        "fn falsy() => false",
+    ])
+    input_file = tmp_path / "in.mg"
+    input_file.write_text(src)
+    output_file = tmp_path / "out.c"
+    main(["-i", str(input_file), "-o", str(output_file)])
+    expected = (
+        "int truthy(void) {\n    return 1;\n}\n"
+        "int falsy(void) {\n    return 0;\n}\n"
+    )
+    assert output_file.read_text() == expected
