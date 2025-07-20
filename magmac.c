@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 static void trim_space(char **p) {
     while (**p && isspace((unsigned char)**p)) {
@@ -29,6 +30,8 @@ int main(int argc, char *argv[]) {
         fclose(in);
         return EXIT_FAILURE;
     }
+
+    fprintf(out, "#include <stdint.h>\n\n");
 
     char line[1024];
     while (fgets(line, sizeof(line), in)) {
@@ -59,6 +62,22 @@ int main(int argc, char *argv[]) {
                         fprintf(out, "int %s() { return 1; }\n", name);
                     } else if (strncmp(p, "false", 5) == 0) {
                         fprintf(out, "int %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "U8", 2) == 0) {
+                        fprintf(out, "uint8_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "U16", 3) == 0) {
+                        fprintf(out, "uint16_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "U32", 3) == 0) {
+                        fprintf(out, "uint32_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "U64", 3) == 0) {
+                        fprintf(out, "uint64_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "I8", 2) == 0) {
+                        fprintf(out, "int8_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "I16", 3) == 0) {
+                        fprintf(out, "int16_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "I32", 3) == 0) {
+                        fprintf(out, "int32_t %s() { return 0; }\n", name);
+                    } else if (strncmp(p, "I64", 3) == 0) {
+                        fprintf(out, "int64_t %s() { return 0; }\n", name);
                     }
                 }
             }
