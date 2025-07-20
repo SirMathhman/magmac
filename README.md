@@ -43,6 +43,26 @@ void empty(void) {
 }
 ```
 
+Functions can also return booleans using `true` or `false` as the body. The
+generated C uses `int` and returns `1` or `0`:
+
+```magma
+fn truthy() => true
+fn falsy() => false
+```
+
+produces:
+
+```c
+int truthy(void) {
+    return 1;
+}
+
+int falsy(void) {
+    return 0;
+}
+```
+
 ## Running Tests
 
 Install test requirements and run `pytest`:
