@@ -14,12 +14,12 @@ INT_TYPES = {
 
 
 def _translate_function(
-    name: str, body: str, param: tuple[str, str] | None = None
+    name: str, body: str, params: list[tuple[str, str]] | None = None
 ) -> str:
     """Return the C code for a single function declaration."""
-    if param:
-        p_name, p_type = param
-        param_decl = f"{INT_TYPES[p_type]} {p_name}"
+    if params:
+        parts = [f"{INT_TYPES[p_type]} {p_name}" for p_name, p_type in params]
+        param_decl = ", ".join(parts)
     else:
         param_decl = "void"
 
@@ -35,21 +35,16 @@ def _translate_function(
 def compile_source(source: str) -> str:
     """Compile a Magma source string to C code."""
     pattern = re.compile(
-        r"fn\s+(\w+)\s*\(\s*(\w+\s*:\s*[UI](?:8|16|32|64))?\s*\)\s*=>\s*(true|false|\{\s*\}|[UI](?:8|16|32|64))"
+        r"fn\s+(\w+)\s*\(\s*([^)]*)\)\s*=>\s*(true|false|\{\s*\}|[UI](?:8|16|32|64))"
     )
+    param_pattern = re.compile(r"(\w+)\s*:\s*([UI](?:8|16|32|64))")
     output_lines = []
-    for match in pattern.finditer(source):
-        name = match.group(1)
-        param_text = match.group(2)
-        body = match.group(3)
-        if param_text:
-            p_name, p_type = re.match(
-                r"(\w+)\s*:\s*([UI](?:8|16|32|64))", param_text
-            ).groups()
-            param = (p_name, p_type)
-        else:
-            param = None
-        output_lines.append(_translate_function(name, body, param))
+
+    for name, param_text, body in pattern.findall(source):
+        params = param_pattern.findall(param_text)
+        params_list = [tuple(p) for p in params] if params else None
+        output_lines.append(_translate_function(name, body, params_list))
+
     return "".join(output_lines)
 
 

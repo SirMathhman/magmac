@@ -86,17 +86,24 @@ int32_t word(void) {
 }
 ```
 
-Functions may also take a single parameter inside the parentheses. A parameter
-is written as `name : Type`:
+Functions may also take one or more parameters inside the parentheses. Each
+parameter is written as `name : Type` and multiple parameters are separated by
+commas:
 
 ```magma
 fn id(x : I32) => I32
+
+fn add(x : I32, y : I32) => I32
 ```
 
 produces:
 
 ```c
 int32_t id(int32_t x) {
+    return 0;
+}
+
+int32_t add(int32_t x, int32_t y) {
     return 0;
 }
 ```
@@ -117,4 +124,4 @@ This project uses GitHub Actions to run the test suite on pushes and pull reques
 
 ## Coding Style
 
-Magmac keeps nested loops and conditionals to at most two levels of indentation so the code stays readable.
+Magmac avoids nested loops entirely and keeps other nested structures to at most two levels of indentation so the code stays readable.
