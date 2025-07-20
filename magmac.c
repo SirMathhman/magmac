@@ -53,10 +53,33 @@ int main(int argc, char *argv[]) {
             if (*p == '(' && *(p + 1) == ')') {
                 p += 2;
                 trim_space(&p);
+                char ret_type[16] = "";
+                if (*p == ':') {
+                    p++;
+                    trim_space(&p);
+                    int j = 0;
+                    while (*p && !isspace((unsigned char)*p) && *p != '=' && j < (int)sizeof(ret_type) - 1) {
+                        ret_type[j++] = *p;
+                        p++;
+                    }
+                    ret_type[j] = '\0';
+                    trim_space(&p);
+                }
                 if (strncmp(p, "=>", 2) == 0) {
                     p += 2;
                     trim_space(&p);
-                    if (strncmp(p, "{}", 2) == 0) {
+                    const char *ctype = NULL;
+                    if (strcmp(ret_type, "U8") == 0) ctype = "uint8_t";
+                    else if (strcmp(ret_type, "U16") == 0) ctype = "uint16_t";
+                    else if (strcmp(ret_type, "U32") == 0) ctype = "uint32_t";
+                    else if (strcmp(ret_type, "U64") == 0) ctype = "uint64_t";
+                    else if (strcmp(ret_type, "I8") == 0) ctype = "int8_t";
+                    else if (strcmp(ret_type, "I16") == 0) ctype = "int16_t";
+                    else if (strcmp(ret_type, "I32") == 0) ctype = "int32_t";
+                    else if (strcmp(ret_type, "I64") == 0) ctype = "int64_t";
+                    if (ret_type[0] && ctype && strncmp(p, "{}", 2) == 0) {
+                        fprintf(out, "%s %s() {}\n", ctype, name);
+                    } else if (strncmp(p, "{}", 2) == 0) {
                         fprintf(out, "void %s() {}\n", name);
                     } else if (strncmp(p, "true", 4) == 0) {
                         fprintf(out, "int %s() { return 1; }\n", name);
